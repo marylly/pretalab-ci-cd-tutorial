@@ -80,6 +80,10 @@ deploy:
 Nessa última sessão adicionada chamada _deploy_ dizemos que vamos deployar no Heroku (provider), a chave de autenticação usará o conteúdo da variável que criamos no Travis HEROKU_API (api_key) e informamos o nome da aplicação que criamos no Heroku (app).
 Após isso, faça ao commit do arquivo `.travis.yml`, espere o pipeline executar e verifique no Heroku se o deploy aconteceu.
 
+No dashboard do Heroku será exibida a lista de aplicações que possui em um URL parecida com https://dashboard.heroku.com/apps. Abra a aplicação que criou antes e acesse a aba _Activities_ e observe se aconteceu um _Build_ e um _Deploy_ recentemente, isso indicará que o pipeline gerou a aplicação no Heroku.
+
+Para visualizar a aplicação, acione o botão _Open App_ e uma nova aba será aberta com a URL da sua aplicação, sendo algo parecido com: https://pretalab-ci-cd-marylly.herokuapp.com/.
+
 ### 5. Linter
 
 ### 6. Testes de Unidade
