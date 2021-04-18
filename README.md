@@ -86,7 +86,7 @@ Para visualizar a aplicação, acione o botão _Open App_ e uma nova aba será a
 
 ### 5. Linter
 
-Referência seguida para instalação com [EsLint](https://eslint.org/docs/user-guide/getting-started).
+Referência seguida para instalação com [ESLint](https://eslint.org/docs/user-guide/getting-started).
 
 Após a instalação e a configuração com o comando de init de o EsLint, ao rodar a primeira vez o linter temos o seguinte resultado.
 ```bash
@@ -123,7 +123,7 @@ npm ERR! This is probably not a problem with npm. There is likely additional log
 
 Foram 10 erros em 1 arquivo `.js`.
 
-Após executar o EsLint com a opção para corrigir o que for possível, o resultado é um erro somente e o arquivo `index.js` completamente alterado.
+Após executar o ESLint com a opção para corrigir o que for possível, o resultado é um erro somente e o arquivo `index.js` completamente alterado.
 
 ```bash
 λ npm run linter:fix 
@@ -137,5 +137,23 @@ C:\Users\josim\projects\pretalab-ci-cd-tutorial\index.js
 
 ✖ 1 problem (0 errors, 1 warning)
 ```
+
+O erro apontado pelo ESLint foi ignorado passando a instrução para ignorar o comando de console na linha seguinte, o trecho de código ficou assim:
+
+```javascript
+// eslint-disable-next-line no-console
+console.info(`Example app listening at http://localhost:${port}`);
+```
+
+Após essa alteração a execução do `npm run linter` não indica mais erros.
+
+```bash
+λ npm run linter
+
+> pretalab-ci-cd-tutorial@0.0.1 linter C:\Users\josim\projects\pretalab-ci-cd-tutorial
+> eslint **/*.js
+```
+
+Após fazer o commit com essa alteração a execução do pipeline no Travis e o deploy no Heroku deverão acontecer com sucesso.
 
 ### 6. Testes de Unidade

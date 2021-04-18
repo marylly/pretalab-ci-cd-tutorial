@@ -8,5 +8,6 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  // eslint-disable-next-line no-console
+  console.info(`Example app listening at http://localhost:${port}`);
 });
