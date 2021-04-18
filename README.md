@@ -86,4 +86,56 @@ Para visualizar a aplicação, acione o botão _Open App_ e uma nova aba será a
 
 ### 5. Linter
 
+Referência seguida para instalação com [EsLint](https://eslint.org/docs/user-guide/getting-started).
+
+Após a instalação e a configuração com o comando de init de o EsLint, ao rodar a primeira vez o linter temos o seguinte resultado.
+```bash
+λ npm run linter
+
+> pretalab-ci-cd-tutorial@0.0.1 linter C:\Users\josim\projects\pretalab-ci-cd-tutorial
+> eslint **/*.js
+
+
+C:\Users\josim\projects\pretalab-ci-cd-tutorial\index.js
+   1:1   error    Expected 1 empty line after require statement not followed by another require  import/newline-after-import
+   1:35  error    Missing semicolon                                                              semi
+   2:22  error    Missing semicolon                                                              semi
+   3:38  error    Missing semicolon                                                              semi
+   6:44  error    Missing semicolon                                                              semi
+   7:3   error    Missing semicolon                                                              semi
+  10:3   warning  Unexpected console statement                                                   no-console
+  10:67  error    Missing semicolon                                                              semi
+  11:3   error    Newline required at end of file but not found                                  eol-last
+  11:3   error    Missing semicolon                                                              semi
+
+✖ 10 problems (9 errors, 1 warning)
+  9 errors and 0 warnings potentially fixable with the `--fix` option.
+
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! pretalab-ci-cd-tutorial@0.0.1 linter: `eslint **/*.js`
+npm ERR! Exit status 1
+npm ERR!
+npm ERR! Failed at the pretalab-ci-cd-tutorial@0.0.1 linter script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+```
+
+Foram 10 erros em 1 arquivo `.js`.
+
+Após executar o EsLint com a opção para corrigir o que for possível, o resultado é um erro somente e o arquivo `index.js` completamente alterado.
+
+```bash
+λ npm run linter:fix 
+
+> pretalab-ci-cd-tutorial@0.0.1 linter:fix C:\Users\josim\projects\pretalab-ci-cd-tutorial
+> eslint --fix **/*.js
+
+
+C:\Users\josim\projects\pretalab-ci-cd-tutorial\index.js
+  11:3  warning  Unexpected console statement  no-console
+
+✖ 1 problem (0 errors, 1 warning)
+```
+
 ### 6. Testes de Unidade

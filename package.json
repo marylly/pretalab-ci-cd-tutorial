@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "test"
+    "test": "test",
+    "linter": "eslint **/*.js",
+    "linter:fix": "eslint --fix **/*.js"
   },
   "keywords": [
     "pretalab"
@@ -14,5 +16,10 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.24.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
   }
 }
