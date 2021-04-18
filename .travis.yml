@@ -2,6 +2,12 @@ language: node_js
 os: linux
 node_js:
   - 14
+
+stages:
+  - build
+  - linter
+  - deploy
+
 jobs:
   include:
     - stage: build
@@ -12,7 +18,10 @@ jobs:
       name: Valida a sintaxe e estilo
       script: npm run linter
 
-deploy:
-  provider: heroku
-  api_key: $HEROKU_API
-  app: pretalab-ci-cd-marylly
+    - stage: deploy to production
+      script: skip
+      deploy:
+        provider: heroku
+        api_key: $HEROKU_API
+        app: pretalab-ci-cd-marylly
+        on: master
