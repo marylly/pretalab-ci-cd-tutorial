@@ -2,12 +2,12 @@
   "name": "pretalab-ci-cd-tutorial",
   "version": "0.0.1",
   "description": "Tutorial de construção do primeiro pipeline com CI e CD",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node src/index.js",
     "test": "test",
-    "linter": "eslint --ignore-pattern 'node_modules/' **/*.js",
-    "linter:fix": "eslint --fix **/*.js"
+    "linter": "eslint src/**/*.js",
+    "linter:fix": "eslint --fix src/**/*.js"
   },
   "keywords": [
     "pretalab"
