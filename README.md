@@ -45,9 +45,40 @@ jobs:
       script: npm install
 ```
 
-Aqui nessa configurações definições fundamentais para funcionar nosso primeiro passo do CI, no caso a instalação da nossa aplicação JavaScript: (1) Qual runtime vamos usar, no caso _NodeJS_; (2) qual sistema operacional que será executado os scripts do nosso pipeline, no caso Linux; (3) qual a versão do Node.JS, no caso versão 14; e nosso primeiro passo (_stage_) definido como _build_, onde nomeie como __Build da aplicação JavaScript__ e define no _script_ o comando executado para instalar nossa aplicação `npm install`. Após essa configuração, commit este arquivo e acompanho a execução do pipeline na página principal do Travis-CI.
+3. Aqui nessa configurações definições fundamentais para funcionar nosso primeiro passo do CI, no caso a instalação da nossa aplicação JavaScript: (1) Qual runtime vamos usar, no caso _NodeJS_; (2) qual sistema operacional que será executado os scripts do nosso pipeline, no caso Linux; (3) qual a versão do Node.JS, no caso versão 14; e nosso primeiro passo (_stage_) definido como _build_, onde nomeie como __Build da aplicação JavaScript__ e define no _script_ o comando executado para instalar nossa aplicação `npm install`. Após essa configuração, commit este arquivo e acompanho a execução do pipeline na página principal do Travis-CI.
+ATENÇÃO: O arquivo de configuração por começar com um ponto `.travis.yml` é considerado como arquivo oculto, então se certifique de que o arquivo foi adicionado e commitado no repositório.
+4. Abra a tela do Travis-CI e verifique se o seu pipeline foi iniciado, deve aparecer como amarelo se estiver executando ainda e verde para completa, vermelha no caso de algum erro. Se estiver verdinha, estamos prontas nessa etapa :)!
 
 ### 4. Configurar o Deploy
+Nesta etapa vamos configurar o deploy dessa aplicação no Heroku, e o Travis-CI que vai colocar a aplicação no Heroku para nós!
+
+1. Vá no dashboard do Heroku e clique no botão __Create new App__. No formulário que for exibido, coloque o nome da aplicação seguido do seu nome, garantindo que seja uma aplicação única no Heroku, _pretalab-ci-cd-<seunome>_ e o país onde será feito o deploy, preencha _United States_, e clique em __Create app__;
+
+2. Pegue a chave de autenticação para o Travis-CI autenticar no Heroku. Acesse seu perfil do Heroku no canto direito superior da tela e clique em _Account Settings_. Na sessão _Account_ procure por uma sessão chamada _API Key_, nela, clique no botão _Reveal_ e copiei o conteúdo da chave, uma sequência aleatória de números e letras.
+
+3. No Dashboard do Travis-CI, procure seu repositório e clique. No campo direito superior, clique no botão _ More options_ e selecione a opção _Settings_. Procure uma sessão chamada _Environments Variables_, e preencha os campos disponíveis: (1) Coloque o nome da variável `HEROKU_API` no campo _name_, usaremos para obter a API Key do Heroku sem que tenhamos que commitar seu valor no `.travis.yml`, evitando problemas de segurança ou roubo de identidade. (2) Preencha a API Key que copiamos no Heroku no campo _value_; (3) No campo _branch_ informe a branch, coloquei _master_ ; (4) Garanta que o campo _DISPLAY VALUE IN BUILD LOGS_ esteja desligado, para que o seu token não seja exibido nos logs do pipeline do Travis. Depois clique no botão _Add_ para que a variável seja criada.
+
+4. Adicione a configuração do deploy no arquivo `.travis.yml`:
+
+```yaml
+language: node_js
+os: linux
+node_js:
+  - 14
+jobs:
+  include:
+    - stage: build
+      name: Build da aplicação JavaScript
+      script: npm install
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API
+  app: pretalab-ci-cd-marylly
+```
+
+Nessa última sessão adicionada chamada _deploy_ dizemos que vamos deployar no Heroku (provider), a chave de autenticação usará o conteúdo da variável que criamos no Travis HEROKU_API (api_key) e informamos o nome da aplicação que criamos no Heroku (app).
+Após isso, faça ao commit do arquivo `.travis.yml`, espere o pipeline executar e verifique no Heroku se o deploy aconteceu.
 
 ### 5. Linter
 

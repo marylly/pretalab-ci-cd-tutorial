@@ -7,3 +7,8 @@ jobs:
     - stage: build
       name: Build da aplicação JavaScript
       script: npm install
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API
+  app: pretalab-ci-cd-marylly
