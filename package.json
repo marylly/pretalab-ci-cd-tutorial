@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "test",
-    "linter": "eslint **/*.js",
+    "linter": "eslint --ignore-pattern 'node_modules/' **/*.js",
     "linter:fix": "eslint --fix **/*.js"
   },
   "keywords": [
