@@ -18,7 +18,8 @@ jobs:
       name: Valida a sintaxe e estilo
       script: npm run linter
 
-    - stage: deploy to production
+    - stage: deploy
+      name: Conecta no Heroku e faz o deploy
       script: skip
       deploy:
         provider: heroku

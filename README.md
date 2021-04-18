@@ -71,10 +71,14 @@ jobs:
       name: Build da aplicação JavaScript
       script: npm install
 
-deploy:
-  provider: heroku
-  api_key: $HEROKU_API
-  app: pretalab-ci-cd-marylly
+    - stage: deploy
+      name: Conecta no Heroku e faz o deploy
+      script: skip
+      deploy:
+        provider: heroku
+        api_key: $HEROKU_API
+        app: pretalab-ci-cd-marylly
+        on: master
 ```
 
 Nessa última sessão adicionada chamada _deploy_ dizemos que vamos deployar no Heroku (provider), a chave de autenticação usará o conteúdo da variável que criamos no Travis HEROKU_API (api_key) e informamos o nome da aplicação que criamos no Heroku (app).
@@ -92,11 +96,11 @@ Após a instalação e a configuração com o comando de init de o EsLint, ao ro
 ```bash
 λ npm run linter
 
-> pretalab-ci-cd-tutorial@0.0.1 linter C:\Users\josim\projects\pretalab-ci-cd-tutorial
+> pretalab-ci-cd-tutorial@0.0.1 linter ...\pretalab-ci-cd-tutorial
 > eslint **/*.js
 
 
-C:\Users\josim\projects\pretalab-ci-cd-tutorial\index.js
+...\pretalab-ci-cd-tutorial\index.js
    1:1   error    Expected 1 empty line after require statement not followed by another require  import/newline-after-import
    1:35  error    Missing semicolon                                                              semi
    2:22  error    Missing semicolon                                                              semi
@@ -128,11 +132,11 @@ Após executar o ESLint com a opção para corrigir o que for possível, o resul
 ```bash
 λ npm run linter:fix 
 
-> pretalab-ci-cd-tutorial@0.0.1 linter:fix C:\Users\josim\projects\pretalab-ci-cd-tutorial
+> pretalab-ci-cd-tutorial@0.0.1 linter:fix ...\pretalab-ci-cd-tutorial
 > eslint --fix **/*.js
 
 
-C:\Users\josim\projects\pretalab-ci-cd-tutorial\index.js
+...\pretalab-ci-cd-tutorial\index.js
   11:3  warning  Unexpected console statement  no-console
 
 ✖ 1 problem (0 errors, 1 warning)
@@ -150,10 +154,13 @@ Após essa alteração a execução do `npm run linter` não indica mais erros.
 ```bash
 λ npm run linter
 
-> pretalab-ci-cd-tutorial@0.0.1 linter C:\Users\josim\projects\pretalab-ci-cd-tutorial
+> pretalab-ci-cd-tutorial@0.0.1 linter ...\pretalab-ci-cd-tutorial
+
 > eslint **/*.js
 ```
 
 Após fazer o commit com essa alteração a execução do pipeline no Travis e o deploy no Heroku deverão acontecer com sucesso.
+
+
 
 ### 6. Testes de Unidade
