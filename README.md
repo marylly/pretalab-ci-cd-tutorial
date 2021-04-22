@@ -159,8 +159,41 @@ Após essa alteração a execução do `npm run linter` não indica mais erros.
 > eslint **/*.js
 ```
 
+Adicione a execução do linter no arquivo `.travis.yml`:
+
+```yaml
+language: node_js
+os: linux
+node_js:
+  - 14
+
+stages:
+  - build
+  - linter
+  - deploy
+
+jobs:
+  include:
+    - stage: build
+      name: Build da aplicação JavaScript
+      script: npm install
+
+    - stage: linter
+      name: Valida a sintaxe e estilo
+      script: npm run linter
+
+    - stage: deploy
+      name: Conecta no Heroku e faz o deploy
+      script: skip
+      deploy:
+        provider: heroku
+        api_key: $HEROKU_API
+        app: pretalab-ci-cd-marylly
+        on: master
+```
+
 Após fazer o commit com essa alteração a execução do pipeline no Travis e o deploy no Heroku deverão acontecer com sucesso.
 
 
 
-### 6. Testes de Unidade
+### 6. Testes Unitários ou de Unidade
