@@ -194,6 +194,95 @@ jobs:
 
 Após fazer o commit com essa alteração a execução do pipeline no Travis e o deploy no Heroku deverão acontecer com sucesso.
 
-
-
 ### 6. Testes Unitários ou de Unidade
+
+Para os testes automatizados, escolhemos usar o Jest, e a referência para instalação e configuração podem ser encontradas [aqui](https://jestjs.io/docs/getting-started). E para efetuar a chamada da api durante os testes, iremos usar a biblioteca do supertest, que temos referências para instalação [aqui](https://github.com/visionmedia/supertest#readme).
+
+Criamos um teste simples para avaliar se o retorno é status code 200 de sucesso e uma mensagem de `Hello World`:
+
+```javascript
+const request = require('supertest');
+const app = require('./index');
+
+describe('Test the `/` path', () => {
+  test('It should response the GET method and return HttpStatusCode 200 and Hello World message', () => {
+    request(app)
+      .get('/')
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(response.text).toBe('Hello World do Nosso tutorial');
+      });
+  });
+});
+```
+
+Atualize a seção de scripts para rodar o comando npm para testes:
+
+```json
+...
+"scripts": {
+    "start": "node src/server.js",
+    "test": "jest",
+    "linter": "eslint src/**/*.js",
+    "linter:fix": "eslint --fix src/**/*.js"
+  },
+...
+```
+
+Execute os testes localmente com o comando `npm test`:
+
+```bash
+➜  pretalab-ci-cd-tutorial git:(main) ✗ npm test
+
+> pretalab-ci-cd-tutorial@0.0.1 test ../pretalab-ci-cd-tutorial
+> jest
+
+ PASS  src/index.test.js
+  Test the `/` path
+    ✓ It should response the GET method and return HttpStatusCode 200 and Hello World message (7 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        5.106 s
+Ran all test suites.
+```
+
+Após a criação do testes, podemos adicionar os testes no pipeline:
+
+```yaml
+language: node_js
+os: linux
+node_js:
+  - 14
+
+stages:
+  - build
+  - linter
+  - unit tests
+  - deploy
+
+jobs:
+  include:
+    - stage: build
+      name: Build da aplicação JavaScript
+      script: npm install
+
+    - stage: linter
+      name: Valida a sintaxe e estilo
+      script: npm run linter
+    
+    - stage: unit tests
+      name: Testes unitários
+      script: npm test
+
+    - stage: deploy
+      name: Conecta no Heroku e faz o deploy
+      script: skip
+      deploy:
+        provider: heroku
+        api_key: $HEROKU_API
+        app: pretalab-ci-cd-marylly
+        on: master
+```
+Após fazer o commit com essa alteração a execução do pipeline no Travis e o deploy no Heroku deverão acontecer com sucesso.
